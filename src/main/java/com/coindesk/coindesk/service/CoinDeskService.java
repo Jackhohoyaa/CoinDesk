@@ -17,12 +17,11 @@ public class CoinDeskService {
     RestTemplate restTemplate;
 
     @Value("${coindesk.api.url}")
-    String coinDeskApiUrl;
+    String apiUrl;
 
     /*** 串接CoinDesk API獲取原始資料 */
     public JsonNode fetchCoinDeskData() {
-        String url = coinDeskApiUrl;
-        return restTemplate.getForObject(url, JsonNode.class);
+        return restTemplate.getForObject(apiUrl, JsonNode.class);
     }
 
     /*** 重新彙整CoinDesk資料 */

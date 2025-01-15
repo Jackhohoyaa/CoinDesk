@@ -1,7 +1,9 @@
 package com.coindesk.coindesk.controller;
 
 import com.coindesk.coindesk.service.CoinDeskService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -12,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Map;
+import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
@@ -21,37 +24,41 @@ import static org.mockito.Mockito.*;
 public class CoinDeskControllerTest {
 
     @Autowired
+    private CoinDeskController coinDeskController;
+
+    @Autowired
     private CoinDeskService coinDeskService;
 
     @Autowired
-    private RestTemplate restTemplate;
-
-    @Value("${coindesk.api.url}")
-    private String apiUrl;
+    private ObjectMapper objectMapper;
 
     @Test
     public void fetchCoinDeskDataTest() {
-        // Arrange: 使用 mock 物件來替代實際的 coinDeskService
-        CoinDeskService mockCoinDeskService = mock(CoinDeskService.class);
-        JsonNode mockResponse = mock(JsonNode.class); // 使用 mock 的 JsonNode
+        //呼叫API
+        coinDeskController.fetchCoinDeskData();
 
-        // 設定 mock 回應
-        when(mockCoinDeskService.fetchCoinDeskData()).thenReturn(mockResponse);
+        //取得資料
+        JsonNode response = coinDeskService.fetchCoinDeskData();
 
-        // Act: 呼叫 mock 的 fetchCoinDeskData 方法
-        JsonNode response = mockCoinDeskService.fetchCoinDeskData();
+        //驗證資料不為NULL
+        assertNotNull(response, "API Response 不應為 NULL");
 
-        // 驗證是否被調用一次
-        verify(mockCoinDeskService, times(1)).fetchCoinDeskData();
-
-        // Assert
-        assertNotNull(response, "Response should not be null");
-
-        System.out.println(coinDeskService.fetchCoinDeskData().toString());
+        //輸出資料
+        System.out.println("取得 CoinDesk API 資訊:\n" + coinDeskService.fetchCoinDeskData().toPrettyString());
     }
 
-
     @Test
-    public void convertDataTest() {
+    public void convertDataTest() throws JsonProcessingException {
+        //呼叫API
+        coinDeskController.getConvertedData();
+
+        //取得資料
+        Map<String,Object> response = coinDeskService.convertData(coinDeskService.fetchCoinDeskData());
+
+        //驗證資料不為NULL
+        assertNotNull(response, "API Response 不應為 NULL");
+
+        //輸出資料
+        System.out.println("轉換後的 CoinDesk 資訊:\n" + objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(response));
     }
 }

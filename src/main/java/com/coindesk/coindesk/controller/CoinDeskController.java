@@ -28,8 +28,7 @@ public class CoinDeskController {
 
     @GetMapping("/converted")
     public ResponseEntity<Object> getConvertedData() {
-        JsonNode rawData = coinDeskService.fetchCoinDeskData();
-        Map<String, Object> result = coinDeskService.convertData(rawData);
+        Map<String, Object> result = coinDeskService.convertData(coinDeskService.fetchCoinDeskData());
         return ResponseEntity.ok().body(new ResponseMsg(ResponseCode.SUCCESS.getValue(), "轉換CoinDesk資料成功", result));
     }
 
