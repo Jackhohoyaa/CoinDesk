@@ -1,5 +1,6 @@
-package com.coindesk.coindesk;
+package com.coindesk.coindesk.exceptionHandler;
 
+import com.coindesk.coindesk.enums.ResponseCode;
 import com.coindesk.coindesk.vo.ResponseMsg;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

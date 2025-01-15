@@ -1,6 +1,6 @@
 package com.coindesk.coindesk.controller;
 
-import com.coindesk.coindesk.ResponseCode;
+import com.coindesk.coindesk.enums.ResponseCode;
 import com.coindesk.coindesk.entities.Currency;
 import com.coindesk.coindesk.service.CurrencyService;
 import com.coindesk.coindesk.vo.CurrencyRequest;

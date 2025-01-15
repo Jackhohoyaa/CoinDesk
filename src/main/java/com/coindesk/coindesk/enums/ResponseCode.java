@@ -1,4 +1,4 @@
-package com.coindesk.coindesk;
+package com.coindesk.coindesk.enums;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
