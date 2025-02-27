@@ -77,11 +77,15 @@ public class CurrencyControllerTest {
     }
 
     @Test
-    public void deleteCurrencyTest() {
+    public void deleteCurrencyTest() throws JsonProcessingException{
         //建立模擬資料
         createCurrencyTest();
 
         //呼叫API
         currencyController.deleteCurrency("USD");
+
+        //輸出結果
+        List<Currency> currencyList = currencyService.getCurrencies();
+        System.out.println("取得刪除USD後的貨幣資料:\n" + objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(currencyList));
     }
 }
